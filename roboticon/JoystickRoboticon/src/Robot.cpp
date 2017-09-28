@@ -81,10 +81,14 @@ public:
 		//Open/Close the gear grabber
 		if(jL->GetRawButton(1)){
 			grabSolenoidL->Set(DoubleSolenoid::Value::kReverse);
-			grabSolenoidR->Set(DoubleSolenoid::Value::kReverse);
 		} else if (!jL->GetRawButton(1)){
 			grabSolenoidL->Set(DoubleSolenoid::Value::kForward);
-			grabSolenoidR->Set(DoubleSolenoid::Value::kForward);
+		}
+
+		if(jR->GetRawButton(1)){
+			grabSolenoidR->Set(DoubleSolenoid::Value::kReverse);
+		} else if (!jL->GetRawButton(1)){
+			grabSolenoidR->Set(DoubleSolenoid::Value::kReverse);
 		}
 
 		if(jL->GetRawButton(2)){
