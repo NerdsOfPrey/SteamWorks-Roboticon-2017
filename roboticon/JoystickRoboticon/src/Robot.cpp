@@ -50,37 +50,41 @@ public:
 	void TeleopPeriodic() {
 
 		//Joysticks
+
+		//Left Joystick
 		if(jL->GetRawAxis(1) < 2.4 && jL->GetRawAxis(1) > -2.4){
 			fL->Set(jL->GetRawAxis(1));
 			bL->Set(jL->GetRawAxis(1));
 		}
+		//Right joystick
 		if(jR->GetRawAxis(1) < 2.4 && jR->GetRawAxis(1) > -2.4){
 			fR->Set(-jR->GetRawAxis(1));
 			bR->Set(-jR->GetRawAxis(1));
 		}
 
 		//Shift the gears!
-		while(jL->GetRawButton(3)){
-			if(leftGearShift->Get() == DoubleSolenoid::Value::kForward){
-				leftGearShift->Set(DoubleSolenoid::Value::kReverse);
-			} else {
-				leftGearShift->Set(DoubleSolenoid::Value::kForward);
-			}
-
-			if(rightGearShift->Get() == DoubleSolenoid::Value::kForward){
-				rightGearShift->Set(DoubleSolenoid::Value::kReverse);
-			} else {
-				rightGearShift->Set(DoubleSolenoid::Value::kForward);
-			}
-
+		if(leftGearShift->Get() == DoubleSolenoid::Value::kForward && jL->GetRawButton(3) == 1){
+			leftGearShift->Set(DoubleSolenoid::Value::kReverse);
 		}
+
+		if (leftGearShift->Get() == DoubleSolenoid::Value::kReverse && jL->GetRawButton(3) == 1){
+			leftGearShift->Set(DoubleSolenoid::Value::kForward);
+		}
+
+		if(rightGearShift->Get() == DoubleSolenoid::Value::kForward && jR->GetRawButton(3)){
+			rightGearShift->Set(DoubleSolenoid::Value::kReverse);
+		}
+		if (rightGearShift->Get() == DoubleSolenoid::Value::kReverse && jR->GetRawButton(3) == 1){
+			rightGearShift->Set(DoubleSolenoid::Value::kForward);
+		}
+
 		//Open/Close the gear grabber
 		if(jL->GetRawButton(1)){
-			grabSolenoidL->Set(DoubleSolenoid::Value::kForward);
-			grabSolenoidR->Set(DoubleSolenoid::Value::kForward);
-		} else if (!jL->GetRawButton(1)){
 			grabSolenoidL->Set(DoubleSolenoid::Value::kReverse);
 			grabSolenoidR->Set(DoubleSolenoid::Value::kReverse);
+		} else if (!jL->GetRawButton(1)){
+			grabSolenoidL->Set(DoubleSolenoid::Value::kForward);
+			grabSolenoidR->Set(DoubleSolenoid::Value::kForward);
 		}
 
 		if(jL->GetRawButton(2)){
