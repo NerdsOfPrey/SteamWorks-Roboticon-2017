@@ -90,7 +90,7 @@ public:
 		} else if (!jL->GetRawButton(1)){
 			grabSolenoidR->Set(DoubleSolenoid::Value::kReverse);
 		}
-
+		//Activate the lift.
 		if(jL->GetRawButton(2)){
 			liftMotor->Set(1);
 		} else {
